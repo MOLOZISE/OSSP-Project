@@ -164,7 +164,6 @@ class ReinforcementLearner:
         self.exploration_cnt = 0
         self.batch_size = 0
         self.learning_cnt = 0
-
     #에이전트에게는 상태란 없다..
     def build_sample(self):
         self.environment.observe()
@@ -280,6 +279,10 @@ class ReinforcementLearner:
         max_portfolio_value = 0
         epoch_win_cnt = 0
 
+        ############ 각 epoch 별 평균 pv 계산 20210515
+        temp_pv_list = []
+        ##################################
+
         # 학습 반복
         for epoch in range(num_epoches):
             time_start_epoch = time.time()
@@ -375,6 +378,9 @@ class ReinforcementLearner:
                 self.agent.num_hold, self.agent.num_stocks,
                 self.agent.portfolio_value, self.learning_cnt,
                 self.loss, elapsed_time_epoch))
+            ######################################################20210515 추가
+            temp_pv_list.append(self.agent.portfolio_value)
+            #####################################################
 
             # 에포크 관련 정보 가시화
             self.visualize(epoch_str, num_epoches, epsilon)
@@ -395,6 +401,9 @@ class ReinforcementLearner:
                          "Max PV:{max_pv:,.0f} #Win:{cnt_win}".format(
                 code=self.stock_code, elapsed_time=elapsed_time,
                 max_pv=max_portfolio_value, cnt_win=epoch_win_cnt))
+            ############################################# 20210515
+            logging.info("[{code}] mean pv : {mean_pv:,.0f}".format(code=self.stock_code, mean_pv=np.mean(temp_pv_list)))
+            ############################################
 
     def save_models(self):
         if self.value_network is not None and \

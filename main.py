@@ -31,6 +31,9 @@ if __name__ == '__main__':
     parser.add_argument('--policy_network_name')
     parser.add_argument('--reuse_models', action='store_true')
     parser.add_argument('--learning', action='store_true')
+    ####################################################### 20210515
+    parser.add_argument('--application_private', action='store_true')
+    ####################################################### 20210515
     # 분봉의 경우
     #parser.add_argument('--date', default='20200626') # 투자를 할 일자를 선택 09:10 ~ 14:59 (15:19까지가 정상거래 -> 15:20 ~ 30분은 동시호가 진행이기에 무의미 -> 넉넉히 14:59까지로
     parser.add_argument('--start_date', default='20200626')
@@ -67,6 +70,7 @@ if __name__ == '__main__':
     # 모델 경로 준비
     value_network_path = ''
     policy_network_path = ''
+    ######################### 삭제가능
     if args.value_network_name is not None:
         value_network_path = os.path.join(settings.BASE_DIR, 'models/{}.h5'.format(args.value_network_name))
     else:
@@ -82,12 +86,46 @@ if __name__ == '__main__':
     list_training_data = []
     list_min_trading_unit = []
     list_max_trading_unit = []
+    # 분봉의 경우
+    # start_time = args.date + "090000"  # 9시 10분부터
+    # end_time = args.date + "150000"  # 15시 까지
     start_time = args.start_date
     end_time = args.end_date
-
     for stock_code in args.stock_code:
+        #################################################### 20210514 추가본, 각 주식 코드별로 구현
+        ####### 예를 들어, reuse_models하고 싶은 애가 있으면, 그 폴더의 이름 + 뒤에 _test 붙이기, 그리고 그 폴더에 신경망 h5 집어넣기 그후
+        ####### if(args.reuse_models) 구문에 path에 넣어주기 인자 실행 시
+        ####### 각 주식종목 별로 수행(각 주식종목 별 신경망 생성) --application_private
+        ####### 주식종목 별이 아닌 공유 신경망 생성(한 신경망으로 계속 학습) (따로 인자 X)
+        if (args.application_private):
+            output_name = stock_code
+            if (args.reuse_models):
+                value_network_path = os.path.join(settings.BASE_DIR,
+                                                  'output/20210515_dqn_cnn_test/{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
+                policy_network_path = os.path.join(settings.BASE_DIR,
+                                                  'output/20210515_dqn_cnn_test/{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
+            else:
+                value_network_path = os.path.join(output_path,
+                                                  '{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
+                policy_network_path = os.path.join(output_path,
+                                                   '{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
+        else:
+            output_name = args.output_name
+            if (args.reuse_models):
+                value_network_path = os.path.join(settings.BASE_DIR,
+                                                  'output/20210515_dqn_cnn_test/{}_{}_value_{}.h5'.format(
+                                                      args.rl_method, args.net, output_name))
+                policy_network_path = os.path.join(settings.BASE_DIR,
+                                                   'output/20210515_dqn_cnn_test/{}_{}_policy_{}.h5'.format(
+                                                       args.rl_method, args.net, output_name))
+            else:
+                value_network_path = os.path.join(output_path,
+                                                  '{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
+                policy_network_path = os.path.join(output_path,
+                                                   '{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
+        #################################################### 20210514 추가본, 각 주식 코드별로 구현
         # 차트 데이터, 학습 데이터 준비
-
+        #chart_data, training_data = data_manager.load_data(os.path.join(settings.BASE_DIR,'data/{}/{}_data.txt'.format(args.ver, stock_code)), start_time, end_time, ver=args.ver)
         chart_data, training_data = data_manager.load_data(
             os.path.join(settings.BASE_DIR, 'files/OSSP_KOSPI/{}_day_data.txt'.format(stock_code)), ver=args.ver, start_time=start_time, end_time=end_time)
         # 최소/최대 투자 단위 설정
