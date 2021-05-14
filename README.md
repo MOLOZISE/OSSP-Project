@@ -1,2 +1,2 @@
 # OSSP-Project
-주가 예측
+OSSP 팀 프로젝트
