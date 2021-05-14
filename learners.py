@@ -164,6 +164,7 @@ class ReinforcementLearner:
         self.exploration_cnt = 0
         self.batch_size = 0
         self.learning_cnt = 0
+
     #에이전트에게는 상태란 없다..
     def build_sample(self):
         self.environment.observe()

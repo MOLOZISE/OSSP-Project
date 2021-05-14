@@ -153,6 +153,7 @@ class LSTMNetwork(Network):
 
     @staticmethod
     def get_network_head(inp):
+
         output = LSTM(64, dropout=0.1,
                       return_sequences=True, stateful=False,
                       kernel_initializer='random_normal')(inp)
