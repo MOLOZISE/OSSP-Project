@@ -139,6 +139,9 @@ class Agent:
             ), 0)
         return self.min_trading_unit + added_trading
 
+    def advanced_change_trading_unit(self, curr_price):
+        self.max_trading_unit = max(int(self.portfolio_value / curr_price), 1)
+
     def advanced_decide_trading_unit(self, curr_price):
         return max(int((self.initial_balance * 0.01) / curr_price), 1)
 
