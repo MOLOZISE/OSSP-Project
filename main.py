@@ -98,25 +98,25 @@ if __name__ == '__main__':
         ####### 각 주식종목 별로 수행(각 주식종목 별 신경망 생성) --application_private
         ####### 주식종목 별이 아닌 공유 신경망 생성(한 신경망으로 계속 학습) (따로 인자 X)
         if (args.application_private):
-            output_name = stock_code
+            output_name = 'dqn_dnn_value_20210514175622' #stock_code
             if (args.reuse_models):
                 value_network_path = os.path.join(settings.BASE_DIR,
-                                                  'output/20210515_dqn_cnn_test/{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
+                                                  'output/20210516_dqn_dnn_test/{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
                 policy_network_path = os.path.join(settings.BASE_DIR,
-                                                  'output/20210515_dqn_cnn_test/{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
+                                                  'output/20210516_dqn_dnn_test/{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
             else:
                 value_network_path = os.path.join(output_path,
                                                   '{}_{}_value_{}.h5'.format(args.rl_method, args.net, output_name))
                 policy_network_path = os.path.join(output_path,
                                                    '{}_{}_policy_{}.h5'.format(args.rl_method, args.net, output_name))
         else:
-            output_name = args.output_name
+            output_name = 'dqn_dnn_value_20210514175622' #args.output_name
             if (args.reuse_models):
                 value_network_path = os.path.join(settings.BASE_DIR,
-                                                  'output/20210515_dqn_cnn_test/{}_{}_value_{}.h5'.format(
+                                                  'output/20210516_dqn_dnn_test/{}_{}_value_{}.h5'.format(
                                                       args.rl_method, args.net, output_name))
                 policy_network_path = os.path.join(settings.BASE_DIR,
-                                                   'output/20210515_dqn_cnn_test/{}_{}_policy_{}.h5'.format(
+                                                   'output/20210516_dqn_dnn_test/{}_{}_policy_{}.h5'.format(
                                                        args.rl_method, args.net, output_name))
             else:
                 value_network_path = os.path.join(output_path,

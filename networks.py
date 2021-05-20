@@ -106,18 +106,70 @@ class DNN(Network):
 
     @staticmethod
     def get_network_head(inp):
-        output = Dense(64, activation='elu',
+        output = Dense(256, activation='elu',
                        kernel_initializer='he_normal')(inp)
         output = Dropout(0.1)(output)
+
+        output = Dense(256, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(256, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(256, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(128, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(128, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(128, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(128, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(64, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(64, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(64, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
+        output = Dense(64, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
         output = Dense(32, activation='elu',
                        kernel_initializer='he_normal')(output)
         output = Dropout(0.1)(output)
-        output = Dense(16, activation='elu',
+
+        output = Dense(32, activation='elu',
                        kernel_initializer='he_normal')(output)
         output = Dropout(0.1)(output)
-        output = Dense(16, activation='elu',
+
+        output = Dense(32, activation='elu',
                        kernel_initializer='he_normal')(output)
         output = Dropout(0.1)(output)
+
+        output = Dense(32, activation='elu',
+                       kernel_initializer='he_normal')(output)
+        output = Dropout(0.1)(output)
+
         return Model(inp, output)
 
     def train_on_batch(self, x, y): # x, y를 받고 train_on_batch 실행
